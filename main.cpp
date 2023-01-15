@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <opencv2/opencv.hpp>
 
-#include "commands/draw_circle.hpp"
+#include "commands/draw_text.hpp"
 #include "image.hpp"
 #include "tool/circle_maker.hpp"
 #include "tool/rectangle_maker.hpp"
@@ -13,10 +13,11 @@
 #include "tool/color_changer.hpp"
 #include "toolbar_resource_loader.hpp"
 #include "tool/redo_maker.hpp"
+#include "tool/text_maker.hpp"
 
 //TODO add data validation
-//TODO add draw text command
 //TODO add network module
+//TODO split into cpp and hpp
 
 MouseEvent castToMouseEvent(int event){
     if(event == cv::MouseEventTypes::EVENT_MOUSEMOVE){
@@ -98,8 +99,9 @@ int main(int argc, char** argv)
                       std::pair{std::make_shared<CircleMaker>(1, Color{0, 0 , 0}), loader.get(ToolName::DrawPrefix + ToolName::Circle)},
                       std::pair{std::make_shared<RectangleMaker>(1, Color{0, 0 , 0}), loader.get(ToolName::DrawPrefix + ToolName::Rectangle)},
                       std::pair{std::make_shared<LineMaker>(1, Color{0, 0 , 0}), loader.get(ToolName::DrawPrefix + ToolName::PolyLine)},
+                      std::pair{std::make_shared<TextMaker>(1, Color{0, 0 , 0}), loader.get(ToolName::DrawPrefix + ToolName::Text)},
                       std::pair{std::make_shared<ThicknessChanger>(0, 100, 20), loader.get(ToolName::ToolPrefix + ToolName::Thickness)},
-                      std::pair{std::make_shared<ColorChanger>(Rectangle{0, 100, 500, 600}), loader.get(ToolName::ToolPrefix + ToolName::Color)},
+                      std::pair{std::make_shared<ColorChanger>(Rectangle{0, 100, 600, 700}), loader.get(ToolName::ToolPrefix + ToolName::Color)},
                       std::pair{std::make_shared<UndoMaker>(), loader.get(ToolName::ServicePrefix + ToolName::Undo)},
                       std::pair{std::make_shared<RedoMaker>(), loader.get(ToolName::ServicePrefix + ToolName::Redo)}}};
 
@@ -112,7 +114,31 @@ int main(int argc, char** argv)
     cv::imshow("Tools", tb.getImage().getStorage());
 
     cv::imshow("Whiteboard", whiteboard.getBoard().getStorage());
-    cv::waitKey(0);
+
+    while (true) {
+        auto key = ASCIIKey(cv::waitKey(0));
+
+        tb.getActiveTool().processKey(key);
+
+        if(tb.getActiveTool().getName().substr(0, 4) == "Draw") {
+            auto& dwtool = dynamic_cast<DrawingTool &>(tb.getActiveTool());
+            if (dwtool.ready()) {
+                bool final = dwtool.final();
+                whiteboard.add_and_redo(dwtool.getCommand());
+                cv::imshow("Whiteboard", whiteboard.getBoard().getStorage());
+                if(!final){
+                    whiteboard.undo_and_remove();
+                }
+            }
+        }else if(tb.getActiveTool().getName().substr(0, 7) == "Service"){
+            auto& stool = dynamic_cast<ServiceTool &>(tb.getActiveTool());
+            if (stool.ready()) {
+                auto cmd = stool.getCommand();
+                cmd->execute(whiteboard);
+                cv::imshow("Whiteboard", whiteboard.getBoard().getStorage());
+            }
+        }
+    }
 
     return 0;
 }

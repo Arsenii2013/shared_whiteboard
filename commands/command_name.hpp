@@ -6,6 +6,7 @@ namespace CommandName{
     const std::string DrawRectangleName = "DrawRectangle";
     const std::string DrawPolyLineName = "DrawPolyLine";
     const std::string DrawImageName = "DrawImage";
+    const std::string DrawTextName = "DrawText";
 }
 
 #endif //SHARED_WHITEBOARD_COMMAND_NAME_HPP

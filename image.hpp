@@ -42,6 +42,38 @@ public:
         cv::polylines(storage, coords_converted, false, cv::Scalar(color), thickness);
     }
 
+private:
+    static double getTextScaleByHeight(const std::string& text, int search_height, double low, double high, double accuracy){
+        int useless;
+        while (std::abs(high - low) > accuracy) {
+            double mid = low + (high - low) / 2;
+            auto textSize = cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, mid, 1, &useless);
+
+            if (std::abs(textSize.height - search_height) < accuracy) {
+                return mid;
+            }
+
+            if (textSize.height < search_height) {
+                low = mid;
+            }else {
+                high = mid;
+            }
+        }
+    }
+
+public:
+    static int textWidthByHeight(const std::string& text, int search_height){
+        auto scale = getTextScaleByHeight(text, search_height, 0, 100, 0.05);
+        int useless;
+        return cv::getTextSize(text, cv::FONT_HERSHEY_SIMPLEX, scale, 1, &useless).width;
+    }
+
+    void drawText(const std::string& text, Point2D left_down, int thickness, Color color){
+        auto scale = getTextScaleByHeight(text, thickness, 0, 100, 0.05);
+        cv::putText(storage, text, cv::Point(left_down), cv::FONT_HERSHEY_SIMPLEX,
+                                                            scale, cv::Scalar(color));
+    }
+
     void drawImage(Point2D up_left, const Image& to_draw){
         to_draw.storage.copyTo(storage({up_left.getY(), up_left.getY() + to_draw.getY()},
                                            {up_left.getX(), up_left.getX() + to_draw.getX()}));

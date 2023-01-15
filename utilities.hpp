@@ -152,6 +152,10 @@ public:
     explicit operator int() const{
         return key;
     }
+
+    explicit operator char() const{
+        return static_cast<char>(key);
+    }
 };
 
 
