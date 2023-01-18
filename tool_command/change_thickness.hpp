@@ -6,9 +6,7 @@ class ChangeThickness : public ToolCommand{
     int thickness{};
 public:
     explicit ChangeThickness(int thickness) : thickness(thickness){};
-    void execute(DrawingTool & tool) override {
-        tool.setThickness(thickness);
-    };
+    void execute(DrawingTool & tool) override;;
 };
 
 #endif //SHARED_WHITEBOARD_CHANGE_THICKNESS_HPP

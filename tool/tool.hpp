@@ -1,9 +1,5 @@
 #ifndef SHARED_WHITEBOARD_TOOL_HPP
 #define SHARED_WHITEBOARD_TOOL_HPP
-#include <utility>
-
-#include "../commands/command.hpp"
-#include "../service_commands/service_command.hpp"
 #include "../utilities.hpp"
 
 class Tool{

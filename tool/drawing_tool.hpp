@@ -1,10 +1,8 @@
 #ifndef SHARED_WHITEBOARD_DRAWING_TOOL_HPP
 #define SHARED_WHITEBOARD_DRAWING_TOOL_HPP
-
-#include "../commands/draw_circle.hpp"
-#include "../commands/draw_poly_line.hpp"
 #include "tool.hpp"
 #include "tool_name.hpp"
+#include "../commands/command_dto.hpp"
 
 class DrawingTool : public Tool{
 protected:
@@ -18,7 +16,7 @@ public:
 
     virtual bool ready() {return false;};
     virtual bool final() {return false;};
-    virtual std::unique_ptr<Command> getCommand() { return {}; };
+    virtual CommandDTO getCommand() { return {}; };
 
     void setThickness(int _thickness) {
         thickness = _thickness;

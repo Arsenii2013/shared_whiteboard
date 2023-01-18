@@ -1,3 +1,7 @@
 #include "undo.hpp"
 
-Undo::Undo() : ServiceCommand("Undo") {}
+Undo::Undo() : ServiceCommand(ServiceCommandName::ServiceUndoName) {}
+
+void Undo::execute(Whiteboard &whiteboard) {
+    whiteboard.undo();
+}

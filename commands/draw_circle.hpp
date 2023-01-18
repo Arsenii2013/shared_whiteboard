@@ -11,22 +11,11 @@ class DrawCircle final: public Command{
     int thickness;
     Image saved{};
 public:
-    DrawCircle(const Point2D &center, int radius, int thickness, const Color &color) :
-                                                Command(CommandName::DrawCircleName),
-                                                 center(center),
-                                                 radius(radius),
-                                                 color(color),
-                                                 thickness(thickness){}
+    DrawCircle(const Point2D &center, int radius, int thickness, const Color &color);
 
-    void redo(Image & image) override {
-        saved = image.subImage({center.getX() - radius - thickness, center.getX() + radius + thickness,
-                                     center.getY() - radius - thickness, center.getY() + radius + thickness});
-        image.drawCircle(center, radius, thickness, color);
-    };
+    void redo(Image & image) override;;
 
-    void undo(Image & image) override {
-        image.drawImage({center.getX() - radius - thickness, center.getY() - radius - thickness}, saved);
-    };
+    void undo(Image & image) override;;
 };
 
 #endif //SHARED_WHITEBOARD_DRAW_CIRCLE_HPP

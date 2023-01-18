@@ -12,32 +12,16 @@ class Whiteboard final{
     Image board{};
 
 public:
-    Whiteboard(int x, int y, Color color): board(x, y, color) {};
+    Whiteboard(int x, int y, Color color);
 
-    void undo(){
-        undoed.push(std::move(redoed.top()));
-        redoed.pop();
-        undoed.top()->undo(board);
-    }
+    void undo();
 
-    void redo() {
-        redoed.push(std::move(undoed.top()));
-        undoed.pop();
-        redoed.top()->redo(board);
-    }
+    void redo();
 
-    void add_and_redo(std::unique_ptr<Command> cmd) {
-        redoed.push(std::move(cmd));
-        redoed.top()->redo(board);
-    }
+    void add_and_redo(std::unique_ptr<Command> cmd);
 
-    void undo_and_remove(){
-        redoed.top()->undo(board);
-        redoed.pop();
-    }
+    void undo_and_remove();
 
-    [[nodiscard]] const Image &getBoard() const {
-        return board;
-    }
+    [[nodiscard]] const Image &getBoard() const;
 };
 #endif //SHARED_WHITEBOARD_WHITEBOARD_HPP

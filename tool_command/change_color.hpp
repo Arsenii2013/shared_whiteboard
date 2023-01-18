@@ -7,8 +7,6 @@ class ChangeColor : public ToolCommand{
 public:
     explicit ChangeColor(Color color) : color(color){};
 
-    void execute(DrawingTool & tool) override {
-        tool.setColor(color);
-    };
+    void execute(DrawingTool & tool) override;;
 };
 #endif //SHARED_WHITEBOARD_CHANGE_COLOR_HPP

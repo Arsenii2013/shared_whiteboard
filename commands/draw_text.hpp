@@ -1,7 +1,5 @@
 #ifndef SHARED_WHITEBOARD_DRAW_TEXT_HPP
 #define SHARED_WHITEBOARD_DRAW_TEXT_HPP
-#include <utility>
-
 #include "command.hpp"
 #include "command_name.hpp"
 #include "../utilities.hpp"
@@ -13,19 +11,11 @@ class DrawText final: public Command{
     Color color;
     Image saved{};
 public:
-    DrawText(const Point2D &leftDown, std::string text, int thickness, const Color &color)
-            : Command(CommandName::DrawTextName), left_down(leftDown), text(std::move(text)), thickness(thickness), color(color) {}
+    DrawText(const Point2D &leftDown, std::string text, int thickness, const Color &color);
 
-    void redo(Image & image) override {
-        saved = image.subImage({left_down.getX(), left_down.getX() + Image::textWidthByHeight(text, thickness) + 1,
-                                     left_down.getY() - thickness, left_down.getY() + thickness});
+    void redo(Image & image) override;;
 
-        image.drawText(text, left_down, thickness, color);
-    };
-
-    void undo(Image & image) override {
-        image.drawImage({left_down.getX(), left_down.getY() - thickness}, saved);
-    };
+    void undo(Image & image) override;;
 };
 
 #endif //SHARED_WHITEBOARD_DRAW_TEXT_HPP

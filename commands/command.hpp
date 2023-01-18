@@ -2,7 +2,6 @@
 #define SHARED_WHITEBOARD_COMMAND_HPP
 #include "../image.hpp"
 
-//абстрактный класс представляющий команду к доске
 class Command{
 protected:
     std::string name;

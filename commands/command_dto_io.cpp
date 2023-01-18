@@ -60,17 +60,30 @@ std::ostream &operator<<(std::ostream &stream, const CommandDTO &dto) {
         stream << dto.getName() << std::endl
                << dto.getRadius() << std::endl
                << dto.getCenter() << std::endl
+               << dto.getThickness() << std::endl
                << dto.getColor() << std::endl;
     }else if(dto.getName() == CommandName::DrawRectangleName){
         stream << dto.getName() << std::endl
                << dto.getP1() << std::endl
                << dto.getP2() << std::endl
+               << dto.getThickness() << std::endl
                << dto.getColor() << std::endl;
     }else if(dto.getName() == CommandName::DrawPolyLineName){
         stream << dto.getName() << std::endl
                << dto.getCoords() << std::endl
                << dto.getThickness() << std::endl
                << dto.getColor() << std::endl;
+    }else if(dto.getName() == CommandName::DrawTextName){
+        stream << dto.getName() << std::endl
+               << dto.getLeftDown() << std::endl
+               << dto.getText() << std::endl
+               << dto.getThickness() << std::endl
+               << dto.getColor() << std::endl;
+    }else if(dto.getName() == CommandName::DrawImageName){
+        stream << dto.getName() << std::endl
+               << dto.getUpLeft() << std::endl
+               << dto.getToDraw() << std::endl
+               << dto.getMask() << std::endl;
     }else{
 
     }
@@ -83,20 +96,39 @@ std::istream &operator>>(std::istream &stream, CommandDTO &dto) {
     if(name == CommandName::DrawCircleName){
         int radius;
         Point2D center;
+        int thickness;
         Color color;
-        stream >> radius >> center >> color;
-        dto = {radius, center, color};
+        stream >> radius >> center >> thickness >> color;
+        dto = {center, radius, thickness, color};
     }else if(name == CommandName::DrawRectangleName){
         Point2D p1, p2;
+        int thickness;
         Color color;
-        stream >> p1 >> p2 >> color;
-        dto = {p1, p2, color};
+        stream >> p1 >> p2 >> thickness >> color;
+        dto = {p1, p2, thickness, color};
     }else if(name == CommandName::DrawPolyLineName){
         std::list<Point2D> coords;
         int thickness;
         Color color;
         stream >> coords >> thickness >> color;
         dto = {coords, thickness, color};
+    }else if(name == CommandName::DrawTextName){
+        Point2D left_down;
+        std::string text;
+        int thickness;
+        Color color;
+        stream >> left_down >> text >> thickness >> color;
+        dto = {left_down, text, thickness, color};
+    }else if(name == CommandName::DrawImageName){
+        Point2D up_left;
+        Image to_draw;
+        Image mask;
+        char sep;
+        stream >> up_left;
+        stream.get();
+        stream >> to_draw >> mask;//>> mask;
+        //dto = {up_left, to_draw, mask};
+        dto = {up_left, to_draw, mask};
     }else{
 
     }

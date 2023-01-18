@@ -22,20 +22,42 @@ class CommandDTO final{
     Point2D up_left{0,0};
     Image to_draw{};
     Image mask{};
+
+    Point2D left_down;
+    std::string text;
 public:
-    CommandDTO(int radius, const Point2D &center, const Color &color) : name(CommandName::DrawCircleName),
+    CommandDTO() = default;
+
+    CommandDTO(const Point2D &center, int radius, int thickness, const Color &color) :
+                                                                         name(CommandName::DrawCircleName),
                                                                          color(color),
                                                                          radius(radius),
-                                                                         center(center) {}
+                                                                         center(center),
+                                                                         thickness(thickness){}
 
-    CommandDTO(const Point2D &p1, const Point2D &p2, const Color &color) : name(CommandName::DrawRectangleName),
+    CommandDTO(const Point2D &p1, const Point2D &p2, int thickness, const Color &color) : name(CommandName::DrawRectangleName),
                                                                             color(color),
-                                                                            p1(p1), p2(p2) {}
+                                                                            p1(p1), p2(p2),
+                                                                            thickness(thickness){}
 
     CommandDTO(std::list<Point2D> coords, int thickness, const Color &color) : name(CommandName::DrawPolyLineName),
                                                                                 color(color),
                                                                                 thickness(thickness),
                                                                                 coords(std::move(coords)) {}
+
+    CommandDTO(Point2D up_left, Image toDraw) : name(CommandName::DrawImageName),
+                                                up_left(up_left),
+                                                to_draw(std::move(toDraw)) {}
+
+    CommandDTO(Point2D up_left, Image toDraw, Image mask) : name(CommandName::DrawImageName),
+                                                            up_left(up_left),
+                                                            to_draw(std::move(toDraw)),
+                                                            mask(std::move(mask)) {}
+
+    CommandDTO(const Point2D &leftDown, std::string text, int thickness, const Color &color) :
+                name(CommandName::DrawTextName), left_down(leftDown), text(std::move(text)),
+                thickness(thickness), color(color) {}
+
 
     [[nodiscard]] const std::string &getName() const {
         return name;
@@ -79,6 +101,14 @@ public:
 
     [[nodiscard]] const Image &getMask() const {
         return mask;
+    }
+
+    [[nodiscard]] const Point2D &getLeftDown() const {
+        return left_down;
+    }
+
+    [[nodiscard]] const std::string &getText() const {
+        return text;
     }
 };
 
