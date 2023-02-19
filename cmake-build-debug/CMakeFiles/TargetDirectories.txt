@@ -1,5 +1,0 @@
-/home/sescer/CLionProjects/shared_whiteboard/cmake-build-debug/CMakeFiles/client.dir
-/home/sescer/CLionProjects/shared_whiteboard/cmake-build-debug/CMakeFiles/server.dir
-/home/sescer/CLionProjects/shared_whiteboard/cmake-build-debug/CMakeFiles/offline.dir
-/home/sescer/CLionProjects/shared_whiteboard/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/sescer/CLionProjects/shared_whiteboard/cmake-build-debug/CMakeFiles/rebuild_cache.dir

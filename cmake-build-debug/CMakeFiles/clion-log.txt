@@ -1,5 +1,0 @@
-/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/opt/clion/bin/ninja/linux/ninja -G Ninja -S /home/sescer/CLionProjects/shared_whiteboard -B /home/sescer/CLionProjects/shared_whiteboard/cmake-build-debug
--- Found SFML 2.5.1 in /usr/lib/cmake/SFML
--- Configuring done
--- Generating done
--- Build files have been written to: /home/sescer/CLionProjects/shared_whiteboard/cmake-build-debug
